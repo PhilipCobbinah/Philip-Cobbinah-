@@ -22,6 +22,14 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  
+  <!-- Fix navigation scroll offset -->
+  <style>
+    /* Smooth scrolling for the entire page */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
 
 <body class="index-page">
@@ -110,15 +118,15 @@
                 <span class="indicator" data-index="2" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
                 <span class="indicator" data-index="3" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
                 <!-- <span class="indicator" data-index="4" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="5" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="6" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="7" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="8" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="9" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="10" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="11" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="12" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span>
-                <span class="indicator" data-index="13" style="width: 10px; height: 10px; border-radius: 50%; background: white; cursor: pointer; opacity: 0.5;"></span> -->
+                <span class="indicator" data-index="5" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="6" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="7" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="8" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="9" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="10" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="11" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="12" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span>
+                <span class="indicator" data-index="13" style="width: 10px; height: 10px; border-radius: 50%; background: white, cursor: pointer; opacity: 0.5;"></span> -->
               </div>
             </div>
           </div>
@@ -1147,6 +1155,52 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Custom Navigation Scroll Handler -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Handle all navigation links
+      const navLinks = document.querySelectorAll('a[href^="#"]');
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetSection = document.querySelector(targetId);
+          
+          if (targetSection) {
+            // Calculate offset based on screen size
+            let offset = 0;
+            const screenWidth = window.innerWidth;
+            
+            if (screenWidth >= 1200) {
+              offset = 80; // Desktop with sidebar
+            } else if (screenWidth >= 768) {
+              offset = 70; // Tablet
+            } else {
+              offset = 60; // Mobile
+            }
+            
+            // Get the position of the section
+            const sectionPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+            
+            // Scroll to the section with offset
+            window.scrollTo({
+              top: sectionPosition - offset,
+              behavior: 'smooth'
+            });
+            
+            // Update active nav link
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
 
   <!-- Contact Form Mailto Handler -->
   <script>
